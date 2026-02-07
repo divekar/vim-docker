@@ -5,7 +5,7 @@ USER root
 RUN sed -i 's/https:/http:/g' /etc/yum.repos.d/rocky*.repo
 
 # 2. Install EPEL and all build dependencies
-# Note: python3-config is part of python3-devel, so it's removed from the list
+# Added: clang-devel and llvm-devel for IWYU
 RUN yum install -y epel-release && \
     sed -i 's/https:/http:/g' /etc/yum.repos.d/*.repo && \
     yum install -y \
@@ -14,6 +14,8 @@ RUN yum install -y epel-release && \
         gcc \
         gcc-c++ \
         clang \
+        clang-devel \
+        llvm-devel \
         clang-tools-extra \
         cmake \
         gdb \
@@ -25,7 +27,6 @@ RUN yum install -y epel-release && \
         ripgrep \
         curl && \
     yum clean all
-
 
 # 3. Build Vim
 RUN git config --global http.sslVerify false && \
@@ -42,6 +43,21 @@ RUN git config --global http.sslVerify false && \
     cd / && \
     rm -rf /tmp/vim
 
+# 4. Build Include-What-You-Use (Clang 20)
+# We check out 'clang_20' 
+RUN cd /tmp && \
+    git clone https://github.com/include-what-you-use/include-what-you-use.git && \
+    cd include-what-you-use && \
+    git checkout clang_20 && \
+    mkdir build && cd build && \
+    cmake -G "Unix Makefiles" \
+          -DCMAKE_PREFIX_PATH=/usr \
+          -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_CXX_COMPILER=clang++ .. && \
+    make -j$(nproc) && \
+    make install && \
+    cd / && \
+    rm -rf /tmp/include-what-you-use
 
 # 5. Install vim-plug
 RUN curl -fLo /root/.vim/autoload/plug.vim --create-dirs --insecure \
@@ -51,11 +67,10 @@ RUN curl -fLo /root/.vim/autoload/plug.vim --create-dirs --insecure \
 COPY .vimrc /root/.vimrc
 RUN mkdir -p /root/.vim
 COPY coc-settings.json /root/.vim/coc-settings.json
-# Ensure these exist or remove if not present in your build context
 COPY .clangd /root/.clangd 
 COPY quick-reference.txt /root/quick-reference.txt
 
-# 7. Install Vim plugins (ignore errors to prevent build break)
+# 7. Install Vim plugins
 RUN vim -E -s -u "/root/.vimrc" +PlugInstall +qall || true
 
 # 8. Install coc extensions
@@ -65,6 +80,11 @@ RUN mkdir -p /root/.config/coc/extensions && \
     npm config set strict-ssl false && \
     npm config set registry http://registry.npmjs.org/ && \
     npm install coc-clangd coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock
+
+
+# Install iwyu helper script into image
+COPY iwyu_tool.py /usr/local/bin/iwyu_tool.py
+RUN chmod +x /usr/local/bin/iwyu_tool.py || true
 
 # 9. Verify and Bash Setup
 RUN echo 'cat ~/quick-reference.txt 2>/dev/null || true' >> /root/.bashrc
