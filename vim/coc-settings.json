@@ -1,0 +1,12 @@
+{
+  "clangd.arguments": [
+    "--background-index",
+    "--clang-tidy",
+    "--completion-style=detailed",
+    "--header-insertion=iwyu",
+    "--compile-commands-dir=/code/.vscode",
+    "--query-driver=**"
+  ],
+  "suggest.noselect": false,
+  "suggest.enablePreselect": true
+}

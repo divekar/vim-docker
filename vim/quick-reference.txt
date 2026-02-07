@@ -1,0 +1,41 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  VIM C++ DEVELOPMENT - QUICK REFERENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  MOST USED COMMANDS:
+    Space p       → Find files               gd            → Go to definition
+    Space f       → Search text              Space o       → Show functions/outline
+    Space gs      → Git status               Ctrl-n        → File tree (NERDTree)
+    Space s       → Switch .h/.cpp           Space m       → Build/compile
+    K             → Show documentation       ]q / F10      → Next error
+
+  CODE NAVIGATION:
+    gd            → Go to definition         gr            → Find references
+    gi            → Go to implementation     Space rn      → Rename symbol
+    Ctrl-o        → Jump back                Ctrl-i        → Jump forward
+    Space r       → References list          ]g / [g       → Next/Previous diagnostic
+    ]q / [q       → Next/Previous error      ]l / [l       → Next/Previous location
+    Ctrl-j/k      → Jump between parameters (after autocomplete)
+
+  FILE FINDING (fzf):
+    Space p       → Find any file            Space ph      → Find .h files
+    Space pc      → Find .cpp files          Space pa      → Find all C++ files
+    Space b       → Switch buffers           Space gf      → Git files only
+
+  SEARCHING (ripgrep):
+    Space f       → Search in all files      Space fh      → Search in .h files
+    Space fc      → Search in .cpp files     Space fa      → Search in C++ files
+
+  GIT:
+    Space gs      → Git status               Space gb      → Git blame
+    Space gc      → Git commit               Space gp      → Git push
+    Space gl      → Git log                  Space gd      → Git diff
+
+  FILE NAVIGATION:
+    Ctrl-n        → Toggle NERDTree          Space s       → Switch .h/.cpp
+    Space sh      → Split & switch .h/.cpp
+
+  Full cheatsheet: https://github.com/yourusername/vim-docker
+  Or view online documentation for complete keyboard shortcuts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

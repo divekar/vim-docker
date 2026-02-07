@@ -1,0 +1,24 @@
+# Clangd configuration file
+# Place this in your project root or home directory
+
+# Specify custom compile_commands.json location
+# CompilationDatabase: /path/to/your/build/
+CompilationDatabase: /code/.vscode/
+
+# Example for common project structures:
+# CompilationDatabase: build/
+# CompilationDatabase: cmake-build-debug/
+# CompilationDatabase: out/build/
+
+# Diagnostics settings
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: Strict
+
+# Index settings
+Index:
+  Background: Build
+
+# Code completion settings  
+Completion:
+  AllScopes: Yes
